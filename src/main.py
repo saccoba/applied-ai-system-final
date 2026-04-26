@@ -9,7 +9,29 @@ You will implement the functions in recommender.py:
 - recommend_songs
 """
 
-from src.recommender import load_songs, recommend_songs
+from recommender import load_songs, recommend_songs
+from retriever import split_text
+from rag_pipeline import create_vector_store, ask_question
+
+
+# Load your data
+with open("data/notes.txt", "r") as f:
+    text = f.read()
+
+# Split text
+chunks = split_text(text)
+
+# Create vector store
+vector_store = create_vector_store(chunks)
+
+# Ask user questions
+while True:
+    query = input("Ask a question (or type exit): ")
+    if query == "exit":
+        break
+
+    answer = ask_question(vector_store, query)
+    print("\nAnswer:", answer)
 
 
 def main() -> None:

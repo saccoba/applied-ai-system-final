@@ -1,55 +1,102 @@
-# 🎧 Model Card: Music Recommender Simulation
+# 🧠 Model Card: Music Recommender + RAG System
 
-## 1. Model Name
+## 📌 Model Overview
+This project combines two components:
+1. A Music Recommender System based on user preferences  
+2. A Retrieval-Augmented Generation (RAG) system that answers questions using stored text data  
 
-**VibeMixer 1.0**
-
----
-
-## 2. Intended Use
-
-This recommender suggests songs based on a user profile. It uses genre, mood, and energy preferences. It is meant for classroom exploration and simple music demos. It is not a real streaming service.
+Instead of generating answers from scratch, the RAG system retrieves relevant information from a dataset and uses it to produce responses.
 
 ---
 
-## 3. How the Model Works
+## 🎯 Intended Use
 
-The model scores each song by checking if it matches the user's genre and mood. It also measures how close the song's energy is to the user's target energy. Songs with higher scores are ranked higher. The goal is to surface songs that feel right for a given mood and energy level.
-
----
-
-## 4. Data
-
-The dataset has 17 songs. It includes pop, lofi, rock, ambient, jazz, synthwave, indie pop, hip hop, electronic, folk, reggae, and other styles. The songs have mood labels like happy, chill, intense, relaxed, and calm. The dataset is small and does not cover every genre or every kind of listening situation.
+This system is designed to:
+- Recommend songs based on user preferences (energy, mood, tempo, etc.)
+- Answer user questions using stored notes (notes.txt)
+- Demonstrate how retrieval-based AI improves accuracy
 
 ---
 
-## 5. Strengths
+## ⚙️ How It Works
 
-The system works well for clear preference profiles. It can find upbeat pop for high-energy happy listeners and calm lofi for chill listeners. It also picks intense rock when the profile asks for a hard, energetic sound. The model captures the idea that energy and mood matter a lot in music choice.
+### Recommender System:
+- Takes user preferences (e.g., energy, valence)
+- Computes similarity between songs and user profile
+- Ranks songs and returns top matches
 
----
-
-## 6. Limitations and Bias
-
-The model often over-prioritizes energy and can create an "energy bubble." It may ignore songs that match genre or mood if their energy is too different from the profile. The dataset also has more pop and chill songs than niche styles. That makes some tastes less likely to be served well.
-
----
-
-## 7. Evaluation
-
-I tested three profiles: High-Energy Pop, Chill Lofi, and Deep Intense Rock. I checked the top 5 recommendations for each profile and compared how the outputs changed. I also tried changing the scoring weights and removing mood matching to see the effect. This helped verify that the model behaves as expected and that score changes affect ranking in a predictable way.
-
----
-
-## 8. Future Work
-
-1. Add more songs and more genres to reduce bias.
-2. Include tempo, danceability, or acousticness as extra features.
-3. Give users control over the importance of genre, mood, and energy.
+### RAG System:
+1. Load text from notes.txt
+2. Split into smaller chunks
+3. Convert chunks into embeddings
+4. Store in FAISS vector database
+5. Retrieve relevant chunks based on user query
+6. Return matching information as response
 
 ---
 
-## 9. Personal Reflection
+## 📊 Data
 
-The biggest learning moment was seeing how a few score changes can completely reshape the recommendation list. Using AI tools helped me generate ideas and check logic quickly, but I had to double-check the code and output because the suggestions were not always exact. It was surprising that such a simple scoring algorithm could still feel reasonable and reflect real listening preferences. Next, I would try adding more song features and letting the user adjust how much genre, mood, and energy matter.
+### Sources:
+- songs.csv → Song features dataset  
+- notes.txt → Text data used for RAG  
+
+### Features Used:
+- Energy
+- Valence
+- Danceability
+- Acousticness
+- Tempo
+
+---
+
+## 📈 Evaluation
+
+### Recommender:
+- Checked if recommended songs match user preferences
+- Compared results with expected outcomes
+
+### RAG System:
+- Tested multiple queries
+- Verified that retrieved text matches the question
+- Confirmed consistent outputs for similar queries
+
+---
+
+## ⚠️ Limitations
+
+- RAG system only works with local text data
+- No external knowledge beyond notes.txt
+- No advanced language generation (no API used)
+- Small dataset limits accuracy and variety
+- Recommender may oversimplify user preferences
+
+---
+
+## ⚖️ Ethical Considerations
+
+- Recommendations may reflect bias in dataset
+- Limited diversity in small datasets
+- No personalization beyond defined features
+- Users should not rely on system for critical decisions
+
+---
+
+## 🔮 Future Improvements
+
+- Integrate OpenAI or HuggingFace models for better responses
+- Expand dataset for more accurate retrieval
+- Add user feedback loop to improve recommendations
+- Build UI (Streamlit or web app)
+- Improve ranking algorithm with machine learning
+
+---
+
+## 🧠 Key Takeaways
+
+This project demonstrates:
+- How RAG improves reliability by grounding answers in real data
+- The importance of data quality in AI systems
+- The trade-off between simplicity vs performance
+
+-
